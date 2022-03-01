@@ -6,5 +6,6 @@ const empleadosControlador = require('../controllers/empleados.controller');
 const api = express.Router();
 
 api.get('/empleados', empleadosControlador.ObtenerEmpleados);
+api.post('/agregarEmpleados', empleadosControlador.AgregarEmpleados);
 
 module.exports = api;
