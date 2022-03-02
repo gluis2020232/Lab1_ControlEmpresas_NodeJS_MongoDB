@@ -42,7 +42,45 @@ function AgregarEmpleados (req, res) {
 }
 
 
+// EDITAR EMPLEADOS
+function EditarEmpleados(req, res) {
+    var idEmpl = req.params.idEmpleado; //Obtener el valor de la variable en ruta
+    var parametros = req.body; //Obtener los los parámetros en el body
+
+    Empleados.findByIdAndUpdate(idEmpl, parametros, { new:true } ,(err, empleadoEditado)=>{
+      
+        //Verificaciones
+        if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+        if(!empleadoEditado) return res.status(404)
+            .send({ mensaje: 'Error al Editar el empleado' });
+        //Verificaciones
+
+        return res.status(200).send({ empleados: empleadoEditado});
+    })
+}
+
+
+//ELIMINAR EMPLEADOS
+function EliminarEmpleados(req, res) {
+    var idEmpl = req.params.idEmpleado; //Obtener el valor de la variable en ruta
+
+    Empleados.findByIdAndDelete(idEmpl, (err, empleadoEliminado)=>{
+
+        //Verificaciones
+        if(err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+        if(!empleadoEliminado) return res.status(500)
+            .send({ mensaje: 'Error al eliminar el empleado' })
+        //Verificaciones
+
+        return res.status(200).send({ empleados: empleadoEliminado });
+    })
+}
+
+
+
 module.exports = {
     ObtenerEmpleados,
-    AgregarEmpleados
+    AgregarEmpleados,
+    EditarEmpleados,
+    EliminarEmpleados
 }
