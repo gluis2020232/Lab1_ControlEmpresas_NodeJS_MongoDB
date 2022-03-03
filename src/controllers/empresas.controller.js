@@ -28,6 +28,25 @@ function AgregarEmpresas (req, res) {
     
 }
 
+
+// EDITAR EMPRESAS
+function EditarEmpresas(req, res) {
+    var idEmpl = req.params.idEmpresa; //Obtener el valor de la variable en ruta
+    var parametros = req.body; //Obtener los los parámetros en el body
+
+    Empresas.findByIdAndUpdate(idEmpl, parametros, { new:true } ,(err, empresaEditado)=>{
+      
+        //Verificaciones
+        if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+        if(!empresaEditado) return res.status(404)
+            .send({ mensaje: 'Error al Editar la empresa' });
+        //Verificaciones
+
+        return res.status(200).send({ empresas: empresaEditado});
+    })
+}
+
 module.exports = {
-    AgregarEmpresas
+    AgregarEmpresas,
+    EditarEmpresas
 }
