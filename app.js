@@ -4,7 +4,7 @@ const app = express();
 
 //IMPORTACION RUTAS
 const empleadosRoutes = require('./src/routes/empleados.routes');
-const empresasRoutes = require('./src/routes/empresas.routes')
+const empresasRoutes = require('./src/routes/empresas.routes');
 
 
 //MIDDLEWARE : Un middleware es un intermedio y un verificador de etc

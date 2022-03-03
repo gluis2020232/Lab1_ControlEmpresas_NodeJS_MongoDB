@@ -1,5 +1,14 @@
 const Empresas = require('../models/empresas.model');
 
+
+//Obtener Empleados
+function ObtenerEmpresas (req, res)  {
+    Empresas.find({}, (err, empresasEncontrados) => {
+        
+        return res.send({ productos: empresasEncontrados })
+    })
+}
+
 //AGREGAR EMPRESAS
 function AgregarEmpresas (req, res) {
     var parametros = req.body; //Obtener todos lo parametros de postman body
@@ -46,7 +55,26 @@ function EditarEmpresas(req, res) {
     })
 }
 
+
+//ELIMINAR EMPRESAS
+function EliminarEmpresas(req, res) {
+    var idEmpl = req.params.idEmpresa; //Obtener el valor de la variable en ruta
+
+    Empresas.findByIdAndDelete(idEmpl, (err, empresaEliminado)=>{
+
+        //Verificaciones
+        if(err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+        if(!empresaEliminado) return res.status(500)
+            .send({ mensaje: 'Error al eliminar la empresa' })
+        //Verificaciones
+
+        return res.status(200).send({ empresa: empresaEliminado });
+    })
+}   
+
 module.exports = {
+    ObtenerEmpresas,
     AgregarEmpresas,
-    EditarEmpresas
+    EditarEmpresas,
+    EliminarEmpresas
 }
