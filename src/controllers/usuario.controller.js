@@ -56,8 +56,8 @@ function Registrar(req, res) {
                     (err, passwordCorrecta) => {//Retorna un boleano true, false
                         if (passwordCorrecta) {
 
-                            return res.status(200).send({ mensaje: 'Usuario logeado con exito'})
-                   //         return res.status(200).send({ token: jwt.crearToken(usuarioEncontrado) })
+                    //        return res.status(200).send({ mensaje: 'Usuario logeado con exito'})
+                            return res.status(200).send({ token: jwt.crearToken(usuarioEncontrado) })
 
                         } else {
                             return res.status(500)
