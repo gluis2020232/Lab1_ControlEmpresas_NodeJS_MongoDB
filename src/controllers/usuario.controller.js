@@ -46,17 +46,19 @@ function Registrar(req, res) {
     function Login(req, res) {
         var parametros = req.body;
     
-        // BUSCAMOS EL USUARIO POR EMAIL
+        // Buscamos el usuario por email
         Usuario.findOne({ email : parametros.email }, (err, usuarioEncontrado) => {
             if(err) return res.status(500).send({ mensaje: 'Error en la peticion'});
             if (usuarioEncontrado){
     
-                 // COMPARAMOS CONTRASENA SIN ENCRIPTAR CON LA ENCRIPTADA
+                // Comparamos contraseña si encriptar con la encriptada
                 bcrypt.compare(parametros.password, usuarioEncontrado.password, 
-                    (err, passwordCorrecta) => {//TRUE OR FALSE
+                    (err, passwordCorrecta) => {//Retorna un boleano true, false
                         if (passwordCorrecta) {
-                            return res.status(200)
-                                .send({ token: jwt.crearToken(usuarioEncontrado) })
+
+                            return res.status(200).send({ mensaje: 'Usuario logeado con exito'})
+                   //         return res.status(200).send({ token: jwt.crearToken(usuarioEncontrado) })
+
                         } else {
                             return res.status(500)
                                 .send({ mensaje: 'La contrasena no coincide.'})
