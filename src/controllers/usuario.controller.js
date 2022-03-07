@@ -3,6 +3,7 @@ const Usuario = require('../models/usuario.model');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('../services/jwt');
 
+//Registrar
 function Registrar(req, res) {
     var parametros = req.body;//Variable para obtener los datos des cuerpo
     var modeloUsuario = new Usuario();
@@ -19,7 +20,7 @@ function Registrar(req, res) {
                 modeloUsuario.nombre = parametros.nombre; //Si se cumple el if me agrega los dts
                 modeloUsuario.apellido = parametros.apellido;
                 modeloUsuario.email = parametros.email;
-                modeloUsuario.rol = 'USUARIO';
+                modeloUsuario.rol = 'Admin';
                 modeloUsuario.imagen = null;
                 //Encriptar password
                 bcrypt.hash(parametros.password, null, null, (err, passwordEncriptada) => {
@@ -43,6 +44,7 @@ function Registrar(req, res) {
     }
 
 
+    //Login
     function Login(req, res) {
         var parametros = req.body;
     
