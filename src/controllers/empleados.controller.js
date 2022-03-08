@@ -1,5 +1,6 @@
 const Empleados = require('../models/empleados.model');
 
+
 //OBTENER EMPLEADOS
 function ObtenerEmpleados (req, res)  {
     Empleados.find({}, (err, empleadosEncontrados) => {
@@ -78,9 +79,70 @@ function EliminarEmpleados(req, res) {
 
 
 
+// BUSQUEDAS
+function BusquedaId(req, res) {
+    var nomUser = req.params.idUsuario;
+
+    Empleados.find({ _id: nomUser }, (err, usuariosEncontrados) => {
+        if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
+        if(!usuariosEncontrados) return res.status(500)
+            .send({ mensaje: 'Error al obtener los usuarios'})
+
+        return res.status(200).send({ usuarios: usuariosEncontrados })
+    })
+}
+
+
+function BusquedaNombre(req, res) {
+    var nomUser = req.params.nombreUsuario;
+
+    Empleados.find({ nombre: nomUser }, (err, usuariosEncontrados) => {
+        if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
+        if(!usuariosEncontrados) return res.status(500)
+            .send({ mensaje: 'Error al obtener los usuarios'})
+
+        return res.status(200).send({ usuarios: usuariosEncontrados })
+    })
+}
+
+
+function BusquedaPuesto(req, res) {
+    var nomUser = req.params.puestoUsuario;
+
+    Empleados.find({ puesto: nomUser }, (err, usuariosEncontrados) => {
+        if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
+        if(!usuariosEncontrados) return res.status(500)
+            .send({ mensaje: 'Error al obtener los usuarios'})
+
+        return res.status(200).send({ usuarios: usuariosEncontrados })
+    })
+}
+
+
+function BusquedaDepartamento(req, res) {
+    var nomUser = req.params.departamentoUsuario;
+
+    Empleados.find({ departamento: nomUser }, (err, usuariosEncontrados) => {
+        if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
+        if(!usuariosEncontrados) return res.status(500)
+            .send({ mensaje: 'Error al obtener los usuarios'})
+
+        return res.status(200).send({ usuarios: usuariosEncontrados })
+    })
+}
+
+
+
+
+
+
 module.exports = {
     ObtenerEmpleados,
     AgregarEmpleados,
     EditarEmpleados,
-    EliminarEmpleados
+    EliminarEmpleados,
+    BusquedaNombre,
+    BusquedaId,
+    BusquedaPuesto,
+    BusquedaDepartamento
 }

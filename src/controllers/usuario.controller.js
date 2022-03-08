@@ -3,6 +3,9 @@ const Usuario = require('../models/usuario.model');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('../services/jwt');
 
+//importacion middlewares
+const md_autenticacion = require('../middlewares/autenticacion');
+
 //Registrar
 function Registrar(req, res) {
     var parametros = req.body;//Variable para obtener los datos des cuerpo
@@ -72,9 +75,33 @@ function Registrar(req, res) {
             }
         })  
     }
+
+
+//Editar Usuario
+function editarUsuario(req, res) {
+    var idUser = req.params.idUsuario;
+    var parametros = req.body; //los parametros que vamos a editar lo obtenemos del body
+
+    // Borrar la propiedad del password y rol en el body
+    delete parametros.password
+    delete parametros.rol
+
+    if( req.user.sub !== idUser ) { //Obtener el id del usuario por medio del token
+        return res.status(500).send({ mensaje: 'No tiene los permisos para editar este Usuario.' });
+    }
+
+    Usuario.findByIdAndUpdate(req.user.sub, parametros, {new: true}, (err, usuarioEditado)=>{
+        if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
+        if(!usuarioEditado) return res.status(500).send({mensaje: 'Error al editar el Usuario'});
+
+        //Me retorna los datos correctos
+        return res.status(200).send({ usuario: usuarioEditado });
+    })
+}
     
     //Exportaciones
     module.exports = {
         Registrar,
-        Login
+        Login,
+        editarUsuario
     }   
